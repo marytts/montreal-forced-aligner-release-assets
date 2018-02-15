@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
+  <info organisation="com.github.montrealcorpustools" module="montreal-forced-aligner" revision="1.0.0" status="release" publication="20180215112801"/>
+  <configurations/>
+  <publications>
+    <artifact name="montreal-forced-aligner" type="tar.gz" ext="tar.gz" m:classifier="linux"/>
+    <artifact name="montreal-forced-aligner" type="zip" ext="zip" m:classifier="macosx"/>
+    <artifact name="montreal-forced-aligner" type="zip" ext="zip" m:classifier="win64"/>
+  </publications>
+  <dependencies/>
+</ivy-module>
