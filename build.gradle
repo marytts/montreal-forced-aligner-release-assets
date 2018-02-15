@@ -7,9 +7,15 @@ buildscript {
     }
 }
 
+plugins {
+    id 'ivy-publish'
+}
+
 allprojects {
     apply plugin: 'base'
 }
+
+evaluationDependsOnChildren()
 
 subprojects {
     task downloadMFA(type: de.undercouch.gradle.tasks.download.Download) {
@@ -17,5 +23,26 @@ subprojects {
         src url
         dest buildDir
         overwrite false
+    }
+}
+
+publishing {
+    publications {
+        subprojects.each { subproject ->
+            ivy(IvyPublication) {
+                artifact("$subproject.buildDir/montreal-forced-aligner_${subproject.name}.$subproject.extension") {
+                    extension subproject.extension
+                    type subproject.extension
+                    classifier subproject.name
+                    builtBy subproject.downloadMFA
+                    descriptor.status 'release'
+                }
+            }
+        }
+    }
+    repositories {
+        ivy {
+            url "$buildDir/repo"
+        }
     }
 }
