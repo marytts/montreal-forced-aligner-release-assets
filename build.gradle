@@ -1,0 +1,21 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath group: 'de.undercouch', name: 'gradle-download-task', version: '3.3.0'
+    }
+}
+
+allprojects {
+    apply plugin: 'base'
+}
+
+subprojects {
+    task downloadMFA(type: de.undercouch.gradle.tasks.download.Download) {
+        def url = "https://github.com/MontrealCorpusTools/Montreal-Forced-Aligner/releases/download/v$version/montreal-forced-aligner_${project.name}.$extension"
+        src url
+        dest buildDir
+        overwrite false
+    }
+}
