@@ -41,7 +41,7 @@ publishing {
                     type subproject.extension
                     classifier subproject.name
                     builtBy subproject.downloadMFA
-                    descriptor.status 'release'
+                    descriptor.status 'milestone'
                 }
             }
         }
