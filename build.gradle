@@ -24,6 +24,12 @@ subprojects {
         dest buildDir
         overwrite false
     }
+
+    task unpackMFA(type: Unpack) {
+        dependsOn downloadMFA
+        srcFile = file("$buildDir/montreal-forced-aligner_${project.name}.$extension")
+        destDir = file("$buildDir/unpacked")
+    }
 }
 
 publishing {
@@ -43,6 +49,37 @@ publishing {
     repositories {
         ivy {
             url "$buildDir/repo"
+        }
+    }
+}
+
+class Unpack extends DefaultTask {
+
+    @InputFile
+    final RegularFileProperty srcFile = newInputFile()
+
+    @OutputDirectory
+    final DirectoryProperty destDir = newOutputDirectory()
+
+    @TaskAction
+    void unpack() {
+        def src = srcFile.get().asFile
+        switch (src.name) {
+            case { it.endsWith('.zip') }:
+                project.copy {
+                    from project.zipTree(src)
+                    into destDir
+                }
+                break
+            case { it.endsWith('.tar.gz') }:
+                project.copy {
+                    from project.tarTree(src)
+                    into destDir
+                }
+                break
+            default:
+                project.logger.error "Cannot unpack file: $src"
+                break
         }
     }
 }
