@@ -66,15 +66,15 @@ class Unpack extends DefaultTask {
         def src = srcFile.get().asFile
         switch (src.name) {
             case { it.endsWith('.zip') }:
-                project.copy {
-                    from project.zipTree(src)
-                    into destDir
+                project.exec {
+                    commandLine 'unzip', src
+                    workingDir destDir
                 }
                 break
             case { it.endsWith('.tar.gz') }:
-                project.copy {
-                    from project.tarTree(src)
-                    into destDir
+                project.exec {
+                    commandLine 'tar', 'xvzf', src
+                    workingDir destDir
                 }
                 break
             default:
