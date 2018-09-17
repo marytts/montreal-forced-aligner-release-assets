@@ -3,11 +3,11 @@
 ## What?
 
 This provides the release assets for the [Montreal Forced Aligner] in resolvable form.
-[Tags in this repository] are [Ivy] repositories containing those release assets.
+[Tags in this repository] contain those release assets.
 
 ## Why?
  
-This construct makes it possible to resolve the release assets from GitHub through the [RawGit] CDN without getting a `403 Forbidden` HTTP response or similar. 
+This construct makes it possible to resolve the release assets from GitHub as "source code" downloads without getting a `403 Forbidden` HTTP response or similar. 
 It's a workaround for limitations in [Gradle]'s dependency resolution engine.
 
 ## How?
@@ -17,7 +17,10 @@ In your [Gradle] project, declare a custom Ivy repository, (optionally) a custom
 ```groovy
 repositories {
     ivy {
-        url 'https://cdn.rawgit.com/marytts/montreal-forced-aligner-release-assets/1.0.0'
+        url 'https://github.com/marytts/montreal-forced-aligner-release-assets/archive'
+        layout 'pattern', {
+            artifact '[revision]-[classifier].[ext]'
+        }
     }
 }
 
